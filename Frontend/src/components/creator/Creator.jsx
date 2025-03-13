@@ -17,7 +17,7 @@ const Creator = () => {
           </div>
           {/* Text Section */}
           <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Dr. Nigga Kumar</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Dr. Ashish Kumar</h2>
             <p className="text-gray-600 mb-2">Dr. Amresh Kumar completed his <strong>B.Tech in Electronics and Communication Engineering (ECE)</strong> from <strong>Shivnand Singh Institution of Technology and Management, Aligarh</strong>, in <strong>2002</strong>.</p>
             <p className="text-gray-600 mb-2">After graduation, he joined <strong>Koderma Mines Institution</strong> as a <strong>part-time lecturer</strong>. He then pursued his <strong>M.Tech in Electrical Engineering</strong> from <strong>BIT Sindri, Dhanbad</strong>.</p>
             <p className="text-gray-600 mb-2">He was later selected as an <strong>Assistant Professor</strong> in the <strong>Electronics and Communication Engineering (ECE) Department</strong> at <strong>MIT Muzaffarpur</strong>. During his tenure there, he also completed his <strong>Ph.D. in Electrical Engineering</strong> from <strong>Bihar University, Muzaffarpur, in 2016</strong>.</p>
