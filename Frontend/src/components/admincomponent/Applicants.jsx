@@ -26,15 +26,18 @@ const Applicants = () => {
       }
     };
     fetchAllApplicants();
-  }, []);
+  }, [params.id, dispatch]);
+
   return (
-    <div>
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
-      <div className="max-w-7xl mx-auto">
-        <h1 className="font-bold text-xl my-5">
-          Applicants {applicants?.applications?.length}
+      <div className="flex-1 max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h1 className="font-bold text-2xl md:text-3xl text-gray-800 mb-6">
+          Applicants ({applicants?.applications?.length || 0})
         </h1>
-        <ApplicantsTable />
+        <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
+          <ApplicantsTable />
+        </div>
       </div>
     </div>
   );

@@ -39,20 +39,20 @@ const Categories = () => {
       navigate("/browse");
   }
   return (
-    <div>
+    <div className="carousel-container">
       <div>
         <h1 className="text-2xl font-bold text-center text-blue-600">
           Categories
         </h1>
         <p className="text-center text-gray-600">
-          Explore our extensive job market.
+          Explore available jobs in different categories.
         </p>
       </div>
       <Carousel className="w-full   max-w-xl  mx-auto my-10">
-        <CarouselContent>
+        <CarouselContent className="flex gap-8">
           {Category.map((category, index) => {
             return (
-              <CarouselItem className="md:basis-1/2 lg-basis-1/3 ">
+              <CarouselItem  className="w-auto" key={index}>
                 <Button onClick={() => searchjobHandler(category)}>
                   {category}
                 </Button>

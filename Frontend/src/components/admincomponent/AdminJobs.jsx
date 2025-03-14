@@ -24,7 +24,7 @@ const AdminJobs = () => {
       <div className=" max-w-6xl mx-auto my-10">
         <div className="flex items-center justify-between my-5">
           <Input
-            className="w-fit"
+            className="w-full sm:w-1/3 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Filter by Name & Jobs"
             onChange={(e) => setInput(e.target.value)}
           ></Input>

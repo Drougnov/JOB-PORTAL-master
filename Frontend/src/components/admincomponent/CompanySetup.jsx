@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import useGetCompanyById from "@/hooks/useGetCompanyById.jsx";
+import { ChevronLeft } from "lucide-react"; // Importing chevron icon
 
 const CompanySetup = () => {
   const params = useParams();
@@ -57,9 +58,6 @@ const CompanySetup = () => {
           withCredentials: true,
         }
       );
-      console.log(res); // Debugging API response
-
-      // Assuming a successful response has a `message` property
       if (res.status === 200 && res.data.message) {
         toast.success(res.data.message);
         navigate("/admin/companies");
@@ -88,20 +86,23 @@ const CompanySetup = () => {
   return (
     <div>
       <Navbar />
-      <div className="max-w-xl mx-auto my-10">
-        <form onSubmit={submitHandler}>
-          <div className="flex items-center gap-5 p-8">
-            <Button
-              onClick={() => navigate("/admin/companies")}
-              variant="outline"
-              className="flex items-center gap-2 text-gray-500 font-semibold"
-            >
-              <ArrowLeft />
-              <span>Back</span>
-            </Button>
-            <h1 className="font-bold text-xl">Company Setup</h1>
+      <div className="max-w-4xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
+        {/* Back Link with Chevron Icon */}
+        <div
+          onClick={() => navigate("/admin/companies")}
+          className="flex items-center text-blue-500 hover:text-blue-700 cursor-pointer mb-6"
+        >
+          <ChevronLeft className="w-4 h-4 mr-1" />
+          <span className="text-base">Back</span>
+        </div>
+
+
+        <form onSubmit={submitHandler} className="bg-white p-8 shadow-lg rounded-lg">
+          <div className="flex items-center gap-5 mb-6">
+            <h1 className="font-bold text-2xl text-gray-800">Company Setup</h1>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label>Company Name</Label>
               <Input
@@ -109,6 +110,7 @@ const CompanySetup = () => {
                 name="name"
                 value={input.name}
                 onChange={changeEventHandler}
+                className="my-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -118,6 +120,7 @@ const CompanySetup = () => {
                 name="description"
                 value={input.description}
                 onChange={changeEventHandler}
+                className="my-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -127,6 +130,7 @@ const CompanySetup = () => {
                 name="website"
                 value={input.website}
                 onChange={changeEventHandler}
+                className="my-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -136,6 +140,7 @@ const CompanySetup = () => {
                 name="location"
                 value={input.location}
                 onChange={changeEventHandler}
+                className="my-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -144,19 +149,24 @@ const CompanySetup = () => {
                 type="file"
                 accept="image/*"
                 onChange={changeFileHandler}
+                className="my-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none"
+                style={{ minHeight: "3rem" }}
               />
             </div>
           </div>
-          {loading ? (
-            <Button className="w-full my-4">
-              {" "}
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
-            </Button>
-          ) : (
-            <Button type="submit" className="w-full my-4">
-              Update
-            </Button>
-          )}
+
+          <div className="mt-8">
+            {loading ? (
+              <Button className="w-full py-3 flex justify-center items-center bg-blue-600 text-white">
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Please wait...
+              </Button>
+            ) : (
+              <Button type="submit" className="w-full py-3 bg-blue-600 text-white hover:bg-blue-700">
+                Update
+              </Button>
+            )}
+          </div>
         </form>
       </div>
     </div>

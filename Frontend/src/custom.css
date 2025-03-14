@@ -1,0 +1,166 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a,button{
+    outline: none;
+}
+
+body{
+    min-height: 100vh;
+    background: linear-gradient(180deg, #F3F4F6, #EDE9FE);;
+}
+
+header{
+    background: linear-gradient(90deg, #EAEFFF, #F3F4F6);
+}
+
+/* navbar */
+[data-radix-popper-content-wrapper]{
+    left: -24px !important;
+    top: 12px !important;
+}
+
+[data-radix-popper-content-wrapper] span img{
+    border: 1px solid;
+    border-radius: 50% !important;
+    border-color: #FA4F09 !important;
+}
+
+[data-radix-popper-content-wrapper] .edit-company span{
+    border: none;
+    border-radius: unset;
+}
+
+
+/* hero-section */
+[data-hero-search-button]{
+    padding-left: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+    border-top-left-radius: 1.5rem;
+}
+
+.carousel-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-inline: 1.5rem;
+}
+
+/* latest job-cards */
+.latest-job-cards{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* profile-page */
+.profile-avatar-container img{
+    border: 3px solid;
+    border-radius: 50% !important;
+    border-color: #FA4F09 !important;
+}
+
+/* edit-profile-modal */
+.edit-profile-modal{
+    margin: 1.5rem;
+}
+
+@media (max-width: 1023px) {
+    /* navbar */
+    .-translate-y-full {
+        --tw-translate-y: -150%;
+    }
+
+    [data-radix-popper-content-wrapper]{
+        left: 12px !important;
+        top: 12px !important;
+    }
+
+    nav ul.gap-8{
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        gap: .5rem;
+    }
+
+    nav ul span{
+        display: flex !important;
+        margin-top: .5rem;
+        border: 1px solid;
+        border-radius: 50% !important;
+        border-color: #FA4F09 !important;
+    }
+
+    /* hero-section */
+    .carousel{
+        max-width: 550px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* hero-section */
+    .carousel{
+        max-width: 75%;
+    }
+
+    /* jobs-page */
+    .jobs-filters-wrapper{
+        flex-direction: column;
+    }
+
+    .filter-wrapper{
+        width: 100%;
+        margin-top: 3rem;
+    }
+
+    .filters-container{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .filters-container div{
+        margin-top: 0 !important;
+    }
+
+    .responsive-nav-go-back{
+        position: absolute;
+        top: 0;
+    }
+
+    /* profile page */
+    .profile-avatar-container span{
+        width: 4rem;
+        height: 4rem;
+    }
+}
+
+@media (max-width: 450px) {
+    /* hero-section */
+    .slogan-container{
+        align-items: start;
+    }
+
+    .slogan-container span svg{
+        height: 25px;
+    }
+
+    .hero-text-lb{
+        display: inline;
+    }
+
+    .carousel div[role="group"]{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* edit-profile-modal */
+    .edit-profile-top-container{
+        flex-direction: column;
+    }
+}

@@ -20,13 +20,14 @@ const EditProfileModal = ({ open, setOpen }) => {
   const { user } = useSelector((store) => store.auth);
 
   const [input, setInput] = useState({
-    fullname: user?.fullname, // Corrected from fullnamename to fullname
-    email: user?.email,
-    phoneNumber: user?.phoneNumber,
-    bio: user?.profile?.bio,
-    skills: user?.profile?.skills?.map((skill) => skill),
-    file: user?.profile?.resume,
+    fullname: user?.fullname || "",
+    email: user?.email || "",
+    phoneNumber: user?.phoneNumber || "",
+    bio: user?.profile?.bio || "",
+    skills: user?.profile?.skills?.join(", ") || "",
+    file: user?.profile?.resume || null,
   });
+
   const dispatch = useDispatch();
 
   const changeEventHandler = (e) => {
@@ -59,19 +60,16 @@ const EditProfileModal = ({ open, setOpen }) => {
         }
       );
       if (res.data.success) {
-        // dispatch(setUser(res.data.user));
-        dispatch(setUser({ ...res.data.user, skills: input.skills }));
+        dispatch(setUser({ ...res.data.user, skills: input.skills.split(", ") }));
         toast.success(res.data.message);
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
     setOpen(false);
-
-    console.log(input);
   };
 
   const FileChangehandler = (e) => {
@@ -80,115 +78,70 @@ const EditProfileModal = ({ open, setOpen }) => {
   };
 
   return (
-    <div>
-      <Dialog open={open}>
-        <DialogContent
-          className="sm:max-w-[500px]"
-          onInteractOutside={() => setOpen(false)}
-        >
-          <DialogHeader>
-            <DialogTitle>Edit Profile</DialogTitle>
-          </DialogHeader>
-          {/* Form for editing profile */}
-          <form onSubmit={handleFileChange}>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Name
-                </Label>
-                <input
-                  type="text"
-                  id="name"
-                  value={input.fullname}
-                  name="name"
-                  onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="email" className="text-right">
-                  Email
-                </Label>
-                <input
-                  type="email"
-                  id="email"
-                  value={input.email}
-                  name="email"
-                  onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="phone" className="text-right">
-                  Phone
-                </Label>
-                <input
-                  type="tel"
-                  id="phone"
-                  value={input.phoneNumber} // Ensure this is correctly set
-                  name="phoneNumber" // Ensure this matches the expected key
-                  onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="bio" className="text-right">
-                  Bio
-                </Label>
-                <input
-                  type="bio"
-                  id="bio"
-                  value={input.bio}
-                  name="bio"
-                  onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              {/* skills */}
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="skills" className="text-right">
-                  Skills
-                </Label>
-                <input
-                  id="skills"
-                  name="skills"
-                  value={input.skills}
-                  onChange={changeEventHandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              {/* Resume file upload */}
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="file" className="text-right">
-                  Resume
-                </Label>
-                <input
-                  type="file"
-                  id="file"
-                  name="file"
-                  accept="application/pdf"
-                  onChange={FileChangehandler}
-                  className="col-span-3 border border-gray-300 rounded-md p-2"
-                />
-              </div>
-            </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="w-full max-w-3xl p-6 rounded-xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold mb-6">Edit Profile</DialogTitle>
+        </DialogHeader>
 
-            <DialogFooter>
+        <form onSubmit={handleFileChange} className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {[
+              { label: "Name", id: "fullname", type: "text" },
+              { label: "Email", id: "email", type: "email" },
+              { label: "Phone", id: "phoneNumber", type: "tel" },
+              { label: "Bio", id: "bio", type: "text" },
+              { label: "Skills (comma separated)", id: "skills", type: "text" },
+            ].map((field) => (
+              <div key={field.id} className="flex flex-col gap-2">
+                <Label htmlFor={field.id} className="font-semibold">
+                  {field.label}
+                </Label>
+                <input
+                  id={field.id}
+                  name={field.id}
+                  type={field.type}
+                  value={input[field.id]}
+                  onChange={changeEventHandler}
+                  className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+            ))}
+
+            <div className="flex flex-col gap-2 sm:col-span-2">
+              <Label htmlFor="file" className="font-semibold">
+                Resume (PDF only)
+              </Label>
+              <input
+                type="file"
+                id="file"
+                name="file"
+                accept="application/pdf"
+                onChange={FileChangehandler}
+                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button
+              type="submit"
+              className="w-full bg-indigo-600 text-white hover:bg-indigo-700 rounded-lg py-3"
+              disabled={loading}
+            >
               {loading ? (
-                <Button className="w-full my-4">
-                  {" "}
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
-                </Button>
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Saving...
+                </>
               ) : (
-                <Button type="submit" className="w-full my-4">
-                  Save
-                </Button>
+                "Save Changes"
               )}
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

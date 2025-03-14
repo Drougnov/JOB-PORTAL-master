@@ -12,8 +12,9 @@ import axios from "axios";
 
 const CompanyCreate = () => {
   const navigate = useNavigate();
-  const [companyName, setCompanyName] = useState();
+  const [companyName, setCompanyName] = useState("");
   const dispatch = useDispatch();
+
   const registerNewCompany = async () => {
     try {
       const res = await axios.post(
@@ -36,30 +37,42 @@ const CompanyCreate = () => {
       console.log(error);
     }
   };
+
   return (
     <div>
       <Navbar />
-      <div className="max-w-4xl mx-auto">
-        <div className="my-10">
-          <h1 className="font-bold text-2xl ">Company Name</h1>
-          <p className="text-gray-600">Company Description</p>
-        </div>
-        <Label>Company Name</Label>
-        <Input
-          type="text"
-          placeholder="Company Name"
-          className="my-2"
-          onChange={(e) => setCompanyName(e.target.value)}
-        />
+      <div style={{width: "100%", display: "flex", justifyContent: "center", alignItemsc: "center", paddingInline: "1.5rem"}}>
+        <div className="max-w-4xl mx-auto bg-white p-6 shadow-lg rounded-lg mt-10 sm:mt-20">
+          <div className="my-6">
+            <h1 className="font-bold text-3xl text-gray-800">Create a New Company</h1>
+            <p className="text-gray-600 mt-2">Fill in the details below to register your company.</p>
+          </div>
 
-        <div className="flex items-center gap-2 my-10">
-          <Button
-            variant="outline"
-            onClick={() => navigate("/admin/companies")}
-          >
-            Cancel
-          </Button>
-          <Button onClick={registerNewCompany}>Continue</Button>
+          <div className="mb-4">
+            <Label className="text-gray-700">Company Name</Label>
+            <Input
+              type="text"
+              placeholder="Enter Company Name"
+              className="my-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={(e) => setCompanyName(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 mt-8">
+            <Button
+              variant="outline"
+              className="w-full sm:w-auto py-2"
+              onClick={() => navigate("/admin/companies")}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="w-full sm:w-auto py-2"
+              onClick={registerNewCompany}
+            >
+              Continue
+            </Button>
+          </div>
         </div>
       </div>
     </div>

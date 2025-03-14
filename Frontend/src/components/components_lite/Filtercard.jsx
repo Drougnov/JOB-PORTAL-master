@@ -7,13 +7,14 @@ const filterData = [
   {
     filterType: "Location",
     array: [
-      "Delhi",
-      "Mumbai",
-      "Kolhapur",
-      "Pune",
-      "Bangalore",
-      "Hyderabad",
-      "Chennai",
+      "Dhaka",
+      "Chittagong",
+      "Sylhet",
+      "Rajshahi",
+      "Khulna",
+      "Barishal",
+      "Rangpur",
+      "Comilla",
       "Remote",
     ],
   },
@@ -54,23 +55,25 @@ const Filter = () => {
   }, [selectedValue]);
 
   return (
-    <div className="w-full bg-white rounded-md">
-      <h1 className="font-bold text-lg">Filter Jobs</h1>
-      <hr className="mt-3" />
-      <RadioGroup value={selectedValue} onValueChange={handleChange}>
+    <div className="w-full bg-white shadow-lg rounded-md p-5 space-y-5">
+      <h1 className="text-xl font-bold">Filter Jobs</h1>
+      <hr className="mt-2 mb-4" />
+      <RadioGroup value={selectedValue} onValueChange={handleChange} className="space-y-6">
         {filterData.map((data, index) => (
-          <div key={index}>
-            <h2 className="font-bold text-lg">{data.filterType}</h2>
+          <div key={index} className="space-y-3">
+            <h2 className="text-lg font-semibold">{data.filterType}</h2>
 
-            {data.array.map((item, indx) => {
-              const itemId = `Id${index}-${indx}`;
-              return (
-                <div key={itemId} className="flex items-center space-x-2 my-2">
-                  <RadioGroupItem value={item} id={itemId}></RadioGroupItem>
-                  <label htmlFor={itemId}>{item}</label>
-                </div>
-              );
-            })}
+            <div className="filters-container space-y-3">
+              {data.array.map((item, indx) => {
+                const itemId = `Id${index}-${indx}`;
+                return (
+                  <div key={itemId} className="flex items-center space-x-3">
+                    <RadioGroupItem value={item} id={itemId} />
+                    <label htmlFor={itemId} className="text-sm sm:text-base">{item}</label>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         ))}
       </RadioGroup>

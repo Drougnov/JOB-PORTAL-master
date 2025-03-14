@@ -46,53 +46,62 @@ const AdminJobsTable = () => {
   }
 
   return (
-    <div>
-      <Table>
-        <TableCaption>Your recent Posted Jobs</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Company Name</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead className="text-right">Action</TableHead>
-          </TableRow>
-        </TableHeader>
+    <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
+      <div className="overflow-x-auto">
+        <Table>
+          <TableCaption>Your recent Posted Jobs</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Company Name</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead className="text-right">Action</TableHead>
+            </TableRow>
+          </TableHeader>
 
-        <TableBody>
-          {filterJobs.length === 0 ? (
-            <span>No Job Added</span>
-          ) : (
-            filterJobs?.map((job) => (
-              <TableRow key={job.id}>
-                <TableCell>{job?.company?.name}</TableCell>
-                <TableCell>{job.title}</TableCell>
-                <TableCell>{job.createdAt.split("T")[0]}</TableCell>
-                <TableCell className="text-right cursor-pointer">
-                  <Popover>
-                    <PopoverTrigger>
-                      <MoreHorizontal />
-                    </PopoverTrigger>
-                    <PopoverContent className="w-32">
-                      <div
-                        onClick={() => navigate(`/admin/companies/${job._id}`)}
-                        className="flex items-center gap-2 w-fit cursor-pointer mb-1"
-                      >
-                        <Edit2 className="w-4" />
-                        <span>Edit</span>
-                      </div>
-                      <hr />
-                      <div onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)} className="flex items-center gap-2 w-fit cursor-pointer mt-1">
-                        <Eye className="w-4"></Eye>
-                        <span>Applicants</span>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+          <TableBody>
+            {filterJobs.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4} className="text-center text-gray-500 py-4">
+                  No Job Added
                 </TableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
+            ) : (
+              filterJobs?.map((job) => (
+                <TableRow key={job.id}>
+                  <TableCell>{job?.company?.name}</TableCell>
+                  <TableCell>{job.title}</TableCell>
+                  <TableCell>{job.createdAt.split("T")[0]}</TableCell>
+                  <TableCell className="text-right cursor-pointer">
+                    <Popover>
+                      <PopoverTrigger>
+                        <MoreHorizontal className="w-5 text-gray-500 hover:text-blue-500" />
+                      </PopoverTrigger>
+                      <PopoverContent className="w-32">
+                        <div
+                          onClick={() => navigate(`/admin/companies/${job._id}`)}
+                          className="flex items-center gap-2 w-fit cursor-pointer mb-1"
+                        >
+                          <Edit2 className="w-4" />
+                          <span>Edit</span>
+                        </div>
+                        <hr />
+                        <div
+                          onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)}
+                          className="flex items-center gap-2 w-fit cursor-pointer mt-1"
+                        >
+                          <Eye className="w-4" />
+                          <span>Applicants</span>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };

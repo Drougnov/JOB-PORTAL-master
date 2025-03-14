@@ -2,36 +2,34 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components_lite/Navbar";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Navigate, useNavigate } from "react-router-dom";
-import { RadioGroup } from "../ui/radio-group";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
 import { USER_API_ENDPOINT } from "@/utils/data.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
+import { Button } from "../ui/button";
 
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
-    password: "", 
+    password: "",
     role: "",
   });
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, user } = useSelector((store) => store.auth);
+
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
-  };
-  const ChangeFilehandler = (e) => {
-    setInput({ ...input, file: e.target.files?.[0] });
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
-      dispatch(setLoading(true)); // Start loading
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_ENDPOINT}/login`, input, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
@@ -42,54 +40,53 @@ const Login = () => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error("Login failed");
+      toast.error("Login failed. Please try again.");
     } finally {
-      dispatch(setLoading(false)); // End loading
+      dispatch(setLoading(false));
     }
   };
 
   useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, []);
+    if (user) navigate("/");
+  }, [user, navigate]);
 
   return (
-    <div>
-      <Navbar></Navbar>
-      <div className="flex items-center justify-center max-w-7xl mx-auto">
-        <form
-          onSubmit={submitHandler}
-          className="w-1/2 border border-gray-500 rounded-md p-4 my-10"
-        >
-          <h1 className="font-bold text-xl mb-5 text-center text-blue-600">
-            Login
-          </h1>
-          <div className="my-2">
-            <Label>Email</Label>
-            <Input
-              type="email"
-              value={input.email}
-              name="email"
-              onChange={changeEventHandler}
-              placeholder="johndoe@gmail.com"
-            ></Input>
-          </div>
-          <div className="my-2">
-            <Label>Password</Label>
-            <Input
-              type="password"
-              value={input.password}
-              name="password"
-              onChange={changeEventHandler}
-              placeholder="********"
-            ></Input>
-          </div>
-           
+    <div className="min-h-screen mb-5">
+      <Navbar />
+      <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 bg-white shadow-lg rounded-2xl p-8 mt-10">
+          <h2 className="text-3xl font-extrabold text-gray-800 text-center">Welcome Back</h2>
+          <p className="text-gray-500 text-center">Log in to your account</p>
 
-          <div className="flex items-center justify-between">
-            <RadioGroup className="flex items-center gap-4 my-5 ">
-              <div className="flex items-center space-x-2">
+          <form onSubmit={submitHandler} className="space-y-6">
+            <div>
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                type="email"
+                name="email"
+                value={input.email}
+                onChange={changeEventHandler}
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                name="password"
+                value={input.password}
+                onChange={changeEventHandler}
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            <div className="flex space-x-4 mt-4">
+              <label className="flex items-center space-x-2">
                 <Input
                   type="radio"
                   name="role"
@@ -98,9 +95,9 @@ const Login = () => {
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
-                <Label htmlFor="r1">Student</Label>
-              </div>
-              <div className="flex items-center space-x-2">
+                <span>Student</span>
+              </label>
+              <label className="flex items-center space-x-2">
                 <Input
                   type="radio"
                   name="role"
@@ -109,37 +106,32 @@ const Login = () => {
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
-                <Label htmlFor="r2">Recruiter</Label>
-              </div>
-            </RadioGroup>
-          </div>
-
-          {loading ? (
-            <div className="flex items-center justify-center my-10">
-              <div className="spinner-border text-blue-600" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+                <span>Recruiter</span>
+              </label>
             </div>
-          ) : (
-            <button
-              type="submit"
-              className="w-3/4 py-3 my-3 text-white flex items-center justify-center max-w-7xl mx-auto bg-blue-600 hover:bg-blue-800/90 rounded-md"
-            >
-              Login
-            </button>
-          )}
 
-          <div className=" ">
-            <p className="text-gray-700  text-center my-2">
-              Create new Account{" "}
-              <Link to="/register" className="text-blue-700">
-                <button className=" w-1/2 py-3 my-3 text-white flex items-center justify-center max-w-7xl mx-auto bg-green-600 hover:bg-green-800/90 rounded-md">
-                  Register
-                </button>
-              </Link>
-            </p>
+            <div>
+              <Button
+                type="submit"
+                className="w-full py-3 mt-4 text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </Button>
+            </div>
+          </form>
+
+          <div className="text-center">
+            <p className="text-gray-600">Don't have an account?</p>
+            <Button
+              variant="outline"
+              onClick={() => navigate("/register")}
+              className="mt-2"
+            >
+              Create Account
+            </Button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
